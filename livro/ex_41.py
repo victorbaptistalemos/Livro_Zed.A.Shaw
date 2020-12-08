@@ -86,4 +86,7 @@ try:
             print(f'ANSWER: {answer}\n\n')
 
 except EOFError:
-    print('\nBye')
+    print('\nYou\'ve pressed ^D\nBye')
+
+except KeyboardInterrupt:
+    print('\nYou\'ve pressed ^C\nBye')

@@ -88,4 +88,7 @@ try:
             print(f'RESPOSTA: {resposta}\n\n')
 
 except EOFError:
-    print('\nTchau')
+    print('\nVocê pressionou ^D\nTchau')
+
+except KeyboardInterrupt:
+    print('\nVocê pressionou ^C\nTchau')
