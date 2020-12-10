@@ -24,6 +24,50 @@ class Death(Scene):
         exit(1)
 
 
+class LaserWeaponArmory:
+    def enter(self):
+        print(dedent('''
+            You do a dive roll into the Weapon Armory, crouch and scan
+            the room for more Gothons that might up be hiding. It's dead
+            quiet, too quiet. You stand up and run the far side of
+            the room and find the neutron bomb in its container.
+            There's a keypad lock on the box and you need to code to
+            get the bomb out. If you get the code wrong 10 times then
+            the lock closes forever and you can't get the bomb. The
+            code is 3 digits.
+        '''))
+
+        code = f'{randint(0,9)}{randint(0,9)}{randint(0,9)}'
+        guesses = 0
+
+        while True:
+            guess = input('[keyboard]> ')
+            guesses += 1 if guess != code else 0
+
+            if guess == code:
+                print(dedent('''
+                    The container clicks and open the seal breaks, letting
+                    gas out. You grab the neutron bomb and run as fast as fast
+                    as you can to the bridge where you must place it in the
+                    right spot.
+                '''))
+                return 'the_bridge'
+            elif guesses >= 10:
+                print(dedent('''
+                    The lock buzzes one last time and then you hear a
+                    sickening melton sound as the mechanism is fused
+                    together. You decide to sit there, and finally the
+                    Gothons blow up the ship from their ship and you die.
+                '''))
+                return 'death'
+            elif len(guess) == 3:
+                for i in range(0, 3):
+                    print('' if guess[i] == code[i] else 'BZZ', end='')
+                print()
+            else:
+                print('BZZZZEDDD!')
+
+
 class TheBridge(Scene):
     def enter(self):
         print(dedent('''
@@ -151,6 +195,7 @@ class Engine:
 class Map:
     scenes = {
         'death': Death(),
+        'laser_weapon_armory': LaserWeaponArmory(),
         'the_bridge': TheBridge(),
         'escape_pod': EscapePod(),
         'finished': Finished()
@@ -167,6 +212,6 @@ class Map:
 
 
 if __name__ == '__main__':
-    x_map = Map('the_bridge')
+    x_map = Map('laser_weapon_armory')
     x_game = Engine(x_map)
     x_game.play()
