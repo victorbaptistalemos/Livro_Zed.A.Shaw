@@ -24,6 +24,58 @@ class Death(Scene):
         exit(1)
 
 
+class TheBridge(Scene):
+    def enter(self):
+        print(dedent('''
+            You burst onto the Bridge with the neutron destruct bomb
+            under your arm and surprise 5 Gothons who are trying to
+            take control of the ship. Each of them has an even uglier
+            clown costume than the last. They haven't pulled their
+            weapons out yet, as they see the active bomb under your
+            arm and don't want to set it off.
+        '''))
+
+        print(dedent('''
+            Actions:
+            1. Slowly place the bomb
+            2. Throw the bomb
+        '''))
+
+        action = input('> ')
+
+        if action == '1':
+            print(dedent('''
+                You point your blaster at the bomb under your arm and
+                the Gothons put their hands up and start to sweat.
+                You inch backward to the door, open it, and then
+                carefully place the bomb to the floor, pointing your
+                blaster at it. You then jump back through the door,
+                punch the close door and blast the lock so the
+                Gothons can't get out. Now that the bomb is placed
+                you run to the escape pod to get off this tin can.
+            '''))
+            return 'escape_pod'
+
+        elif action == '2':
+            print(dedent('''
+                In a panic you throw the bomb at the group of Gothons
+                and make a leap for the door. Right as you drop it a
+                Gothon shoots you right in the back killing you. As
+                you die you see another Gothon fantically try to
+                disarm the bomb. You die knowing they will probably
+                blow up when it goes off.
+            '''))
+            return 'death'
+
+        else:
+            print(dedent('''
+                While you're thinking about what to do a Gothon pulled his
+                weapon desperately and shot the bomb. Well, everybody was
+                killed in that action.
+            '''))
+            return 'death'
+
+
 class EscapePod(Scene):
     def enter(self):
         print(dedent('''
@@ -99,6 +151,7 @@ class Engine:
 class Map:
     scenes = {
         'death': Death(),
+        'the_bridge': TheBridge(),
         'escape_pod': EscapePod(),
         'finished': Finished()
     }
@@ -114,6 +167,6 @@ class Map:
 
 
 if __name__ == '__main__':
-    x_map = Map('escape_pod')
+    x_map = Map('the_bridge')
     x_game = Engine(x_map)
     x_game.play()
