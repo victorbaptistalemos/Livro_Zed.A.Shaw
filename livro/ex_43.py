@@ -24,6 +24,63 @@ class Death(Scene):
         exit(1)
 
 
+class CentralCorridor(Scene):
+    def enter(self):
+        print(dedent('''
+            The Gothons of Planet Percal #25 have invaded your ship and
+            destroyed the entire crew. You are the last surviving
+            member and your last mission is to get the neutron destruct
+            bomb from the Weapons Armory, put it int the Bridge, and
+            blow the ship up after getting into an escape pod.
+
+            You're running down the central corridor to the Weapons
+            Armory when a Gothon jumps out, red scaly skin, dark grimy
+            teeth, and evil clown costume flowing around his hate
+            filled body. He's blocking the door to the Armory and
+            about to pull a weapon to blast you.
+        '''))
+
+        print(dedent('''
+            Actions:
+            1. Dodge
+            2. Tell a joke
+        '''))
+
+        action = ''
+
+        while action != '1' and action != '2':
+            action = input('> ')
+
+            if action != '1' and action != '2':
+                print('Try again')
+
+        if action == '1':
+            print(dedent('''
+                Like a world class boxer you dodge, weave, slip and
+                slide right as the Gothon's blaster cranks a laser
+                past your head. In the middle of your artful dodge
+                your foot slips and you bang your head on the metal
+                wall and pass out. You wake up shortly after only to
+                die as the Gothon stomps on your head and eats you.
+            '''))
+
+            return 'death'
+
+        elif action == '2':
+            print(dedent('''
+                Lucky for you they made you learn Gothon insults in
+                the academy. You tell the one Gothon joke you know:
+                Lbhe zbgure vf fb sng, jura fur fvgv nebhaq gur ubhfr,
+                fur fvgv nebhaq gur ubhfr. The Gothon stops, tries
+                not to laugh, then busts out laughing and can't move.
+                While he's laughing you run up and shoot him square in
+                the head putting him down, then jump through the
+                Weapon Armory door.
+            '''))
+
+            return 'laser_weapon_armory'
+
+
 class LaserWeaponArmory:
     def enter(self):
         print(dedent('''
@@ -195,6 +252,7 @@ class Engine:
 class Map:
     scenes = {
         'death': Death(),
+        'central_corridor': CentralCorridor(),
         'laser_weapon_armory': LaserWeaponArmory(),
         'the_bridge': TheBridge(),
         'escape_pod': EscapePod(),
@@ -212,6 +270,6 @@ class Map:
 
 
 if __name__ == '__main__':
-    x_map = Map('laser_weapon_armory')
+    x_map = Map('central_corridor')
     x_game = Engine(x_map)
     x_game.play()
