@@ -30,6 +30,24 @@ class Finished(Scene):
         exit(0)
 
 
+class Map:
+    scenes = {
+        'death': Death(),
+        'finished': Finished()
+    }
+
+    def __init__(self, start_scene):
+        self.start_scene = start_scene
+
+    def next_scene(self, scene_name):
+        return Map.scenes.get(scene_name)
+
+    def opening_scene(self):
+        return self.next_scene(self.start_scene)
+
+
 if __name__ == '__main__':
-    x = Finished()
-    x.enter()
+    x = Map('death')
+    x.opening_scene()
+    x.next_scene('finished')
+    x.opening_scene()
