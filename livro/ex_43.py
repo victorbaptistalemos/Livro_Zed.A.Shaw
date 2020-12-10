@@ -24,6 +24,12 @@ class Death(Scene):
         exit(1)
 
 
+class Finished(Scene):
+    def enter(self):
+        print('You won! Good job!')
+        exit(0)
+
+
 if __name__ == '__main__':
-    x = Death()
+    x = Finished()
     x.enter()
