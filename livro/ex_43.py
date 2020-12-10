@@ -24,6 +24,55 @@ class Death(Scene):
         exit(1)
 
 
+class EscapePod(Scene):
+    def enter(self):
+        print(dedent('''
+            You rush through the ship desperately trying to make it to
+            the escape pod before the whole ship explodes. It seems
+            like hardly any Gothons are on the ship, so your run is
+            clear of interference. You get to the chamber with the
+            escape pods, and now you neeed to pick one to take. Some of
+            them could be damaged but you don't have time to look.
+            There's 5 pods, which one do you take?
+        '''))
+
+        good_pod = randint(1, 5)
+        guesses = 0
+
+        while True:
+            guess = input('[pod]> ')
+            guess = int(guess) if str.isdigit(guess) else 0
+
+            if not 1 <= guess <= 5 and guesses < 5:
+                guesses += 1
+                print(f'{guess} is not a valid pod number. Try again!')
+
+            if guesses >= 5:
+                print(dedent('''
+                    While you're playing around not choosing a valid pod number
+                    a Gothon came and shot you right to the head killing you.
+                '''))
+                return 'death'
+            elif guess == good_pod:
+                print(dedent(f'''
+                    You jump into pod #{guess} and hit the eject button.
+                    The pod easily slides out into space heading to the
+                    planet below. As it flies to the planet, you look
+                    back and see your ship implode then explode like a
+                    bright star, taking out the Gothon ship at the same
+                    time. You won!
+                '''))
+                return 'finished'
+            else:
+                print(dedent(f'''
+                    You jump into pod #{guess} and hit the eject button.
+                    The pod escapes out into the void of space, then
+                    implodes as the hull ruptures, crushing your body into
+                    jam jelly.
+                '''))
+                return 'death'
+
+
 class Finished(Scene):
     def enter(self):
         print('You won! Good job!')
@@ -50,6 +99,7 @@ class Engine:
 class Map:
     scenes = {
         'death': Death(),
+        'escape_pod': EscapePod(),
         'finished': Finished()
     }
 
@@ -64,6 +114,6 @@ class Map:
 
 
 if __name__ == '__main__':
-    x_map = Map('finished')
+    x_map = Map('escape_pod')
     x_game = Engine(x_map)
     x_game.play()
