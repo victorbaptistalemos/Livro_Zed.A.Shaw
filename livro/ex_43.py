@@ -30,6 +30,23 @@ class Finished(Scene):
         exit(0)
 
 
+class Engine:
+    def __init__(self, scene_map):
+        self.scene_map = scene_map
+
+    def play(self):
+        # Map.opening_scene() -- Composição de objetos
+        current_scene = self.scene_map.opening_scene()
+        # Map.next_scene() -- Composição de objetos
+        last_scene = self.scene_map.next_scene('finished')
+
+        while current_scene != last_scene:
+            next_scene_name = current_scene.enter()
+            current_scene = self.scene_map.next_scene(next_scene_name)
+
+        current_scene.enter()
+
+
 class Map:
     scenes = {
         'death': Death(),
@@ -47,7 +64,6 @@ class Map:
 
 
 if __name__ == '__main__':
-    x = Map('death')
-    x.opening_scene()
-    x.next_scene('finished')
-    x.opening_scene()
+    x_map = Map('finished')
+    x_game = Engine(x_map)
+    x_game.play()
